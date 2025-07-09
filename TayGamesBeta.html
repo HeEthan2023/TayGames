@@ -36,12 +36,21 @@
       top: 0;
       z-index: 1000;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      flex-wrap: wrap;
     }
 
     .logo {
       font-size: 1.5em;
       font-weight: bold;
       color: var(--primary);
+    }
+
+    nav {
+      display: flex;
+      flex: 1 1 auto;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 10px 0;
     }
 
     nav a {
@@ -55,6 +64,15 @@
       color: var(--primary);
     }
 
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      flex: 1 1 auto;
+    }
+
     .toggle-theme {
       cursor: pointer;
       padding: 5px 10px;
@@ -62,6 +80,34 @@
       background: var(--primary);
       color: white;
       border: none;
+    }
+
+    #nickname-input {
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      width: 130px;
+    }
+
+    #save-nickname {
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #clear-progress {
+      background: #e55353;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-weight: bold;
     }
 
     .hero {
@@ -212,7 +258,18 @@
       <a href="#community">Community</a>
       <a href="#">Support</a>
     </nav>
-    <button class="toggle-theme" onclick="toggleTheme()">Toggle Theme</button>
+    <div class="header-controls">
+      <input
+        id="nickname-input"
+        type="text"
+        placeholder="Enter Nickname"
+        maxlength="20"
+        title="Set your nickname"
+      />
+      <button id="save-nickname">Save Nickname</button>
+      <button id="clear-progress">Clear Progress</button>
+      <button class="toggle-theme" onclick="toggleTheme()">Toggle Theme</button>
+    </div>
   </header>
 
   <section class="hero">
@@ -240,31 +297,27 @@
     </div>
   </section>
 
-  
   <section id="games" class="game-grid">
     <div class="game-card">
-      <img src="https://via.placeholder.com/300x160?text=Game+1" alt="Game 1">
+      <img src="https://via.placeholder.com/300x160?text=Game+1" alt="Game 1" />
       <h3>Space Invaders</h3>
       <p>Arcade shooter with space vibes.</p>
       <button onclick="playGame('https://freeinvaders.org/')">Play Now</button>
     </div>
-      <div class="game-card">
-      <img src="https://via.placeholder.com/300x160?text=Game+1" alt="Game 1">
+    <div class="game-card">
+      <img src="https://via.placeholder.com/300x160?text=Game+1" alt="Game 1" />
       <h3>Pac-Man</h3>
       <p>Classic Arcade pacman.</p>
       <button onclick="playGame('https://freepacman.org/')">Play Now</button>
     </div>
-        
   </section>
 
-  
   <section id="community">
     <h2>Community</h2>
     <p class="under-construction">🚧 Under Construction 🚧</p>
     <p>We're building something awesome here. Stay tuned!</p>
   </section>
 
-  
   <div id="game-player">
     <button id="exit-game" onclick="exitGame()">Exit Game</button>
     <iframe id="game-iframe" allowfullscreen></iframe>
@@ -302,6 +355,49 @@
       document.getElementById("game-player").style.display = "none";
       document.getElementById("game-iframe").src = "";
     }
+
+    // Nickname handling
+    const nicknameInput = document.getElementById("nickname-input");
+    const saveNicknameBtn = document.getElementById("save-nickname");
+    const clearProgressBtn = document.getElementById("clear-progress");
+
+    // Load saved nickname on page load
+    function loadNickname() {
+      const savedNickname = localStorage.getItem("nickname");
+      if (savedNickname) {
+        nicknameInput.value = savedNickname;
+      }
+    }
+
+    // Save nickname to localStorage
+    saveNicknameBtn.addEventListener("click", () => {
+      const nickname = nicknameInput.value.trim();
+      if (nickname.length === 0) {
+        alert("Please enter a valid nickname.");
+        return;
+      }
+      localStorage.setItem("nickname", nickname);
+      alert(`Nickname saved as "${nickname}"`);
+    });
+
+    // Clear all progress and localStorage data
+    clearProgressBtn.addEventListener("click", () => {
+      const confirmed = confirm(
+        "Are you sure you want to clear all progress and settings? This action cannot be undone."
+      );
+      if (confirmed) {
+        localStorage.clear();
+        alert("All progress and settings have been cleared.");
+        // Reset UI elements to default
+        nicknameInput.value = "";
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    });
+
+    // Initialize on page load
+    window.addEventListener("DOMContentLoaded", () => {
+      loadNickname();
+    });
   </script>
 
 </body>
