@@ -18,6 +18,20 @@
       --card: #2c2c3d;
     }
 
+    [data-theme="gaming"] {
+      --background: #0f1923;
+      --text: #c0c0c0;
+      --card: #1b2738;
+      --primary: #00aaff;
+    }
+
+    [data-theme="google"] {
+      --background: #ffffff;
+      --text: #202124;
+      --card: #f8f9fa;
+      --primary: #1a73e8;
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
@@ -245,16 +259,6 @@
       margin-top: 50px;
     }
 
-    @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 2.2em;
-      }
-
-      nav a {
-        margin: 0 8px;
-      }
-    }
-
     #community {
       padding: 60px 20px;
       max-width: 800px;
@@ -263,12 +267,32 @@
       background: var(--card);
       border-radius: 12px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      position: relative;
     }
 
     #community p.under-construction {
       font-size: 1.2em;
       color: var(--primary);
       font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    #token-display {
+      font-weight: bold;
+      color: var(--primary);
+      margin-left: 15px;
+      min-width: 100px;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 2.2em;
+      }
+
+      nav a {
+        margin: 0 8px;
+      }
     }
   </style>
 </head>
@@ -293,6 +317,7 @@
       <button id="save-nickname">Save Nickname</button>
       <button id="clear-progress">Clear Progress</button>
       <button class="toggle-theme" onclick="toggleTheme()">Toggle Theme</button>
+      <span id="token-display"></span>
       <button id="join-discord" aria-label="Join Discord">
         <img src="https://cdn3d.iconscout.com/3d/premium/thumb/discord-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--logo-server-technology-social-media-miscellaneous-pack-illustrations-3684812.png?f=webp" alt="Discord Logo" />
         Join Discord
@@ -320,7 +345,7 @@
       <p>Log in daily to unlock skins, currency, and special bonuses. WARNING: COMING SOON</p>
     </div>
     <div class="feature">
-      <h3>Community Driven</h3>
+      <h3>Community</h3>
       <p>Join events, share creations, and level up with fellow players, all coming soon!.</p>
     </div>
   </section>
@@ -373,80 +398,76 @@
 
   <div id="game-player">
     <button id="exit-game" onclick="exitGame()">Exit Game</button>
-    <iframe id="game-iframe" allowfullscreen></iframe>
+    <iframe id="game-iframe" src=""></iframe>
   </div>
 
-  <footer>
-    &copy; 2025 TayGames. Built with ❤️ by Ethan Taylor.
-  </footer>
-
   <script>
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark" || savedTheme === "light") {
-      document.documentElement.setAttribute("data-theme", savedTheme);
-    } else {
-      document.documentElement.setAttribute("data-theme", "light");
-    }
+    if (!localStorage.getItem("tokens")) localStorage.setItem("tokens", "200");
+    if (!localStorage.getItem("nickname")) localStorage.setItem("nickname", "");
+    if (!localStorage.getItem("theme")) localStorage.setItem("theme", "default");
 
-    function toggleTheme() {
-      const currentTheme = document.documentElement.getAttribute("data-theme");
-      const newTheme = currentTheme === "dark" ? "light" : "dark";
-      document.documentElement.setAttribute("data-theme", newTheme);
-      localStorage.setItem("theme", newTheme);
-    }
-
-    function playGame(url) {
-      document.getElementById("game-player").style.display = "flex";
-      document.getElementById("game-iframe").src = url;
-    }
-
-    function exitGame() {
-      document.getElementById("game-player").style.display = "none";
-      document.getElementById("game-iframe").src = "";
-    }
-
+    const tokenDisplay = document.getElementById("token-display");
     const nicknameInput = document.getElementById("nickname-input");
     const saveNicknameBtn = document.getElementById("save-nickname");
     const clearProgressBtn = document.getElementById("clear-progress");
+    const joinDiscordBtn = document.getElementById("join-discord");
 
-    function loadNickname() {
-      const savedNickname = localStorage.getItem("nickname");
-      if (savedNickname) {
-        nicknameInput.value = savedNickname;
+    function updateTokenDisplay() {
+      tokenDisplay.textContent = `Tokens: ${localStorage.getItem("tokens")}`;
+    }
+
+    function toggleTheme() {
+      const currentTheme = localStorage.getItem("theme");
+      let newTheme;
+      if (currentTheme === "default") newTheme = "gaming";
+      else if (currentTheme === "gaming") newTheme = "google";
+      else newTheme = "default";
+
+      localStorage.setItem("theme", newTheme);
+      applyTheme();
+    }
+
+    function applyTheme() {
+      const theme = localStorage.getItem("theme");
+      document.documentElement.removeAttribute("data-theme");
+      if (theme !== "default") document.documentElement.setAttribute("data-theme", theme);
+    }
+
+    function saveNickname() {
+      localStorage.setItem("nickname", nicknameInput.value.trim());
+      alert("Nickname saved!");
+    }
+
+    function clearProgress() {
+      if (confirm("Are you sure you want to clear your progress?")) {
+        localStorage.clear();
+        location.reload();
       }
     }
 
-    saveNicknameBtn.addEventListener("click", () => {
-      const nickname = nicknameInput.value.trim();
-      if (nickname.length === 0) {
-        alert("Please enter a valid nickname.");
-        return;
-      }
-      localStorage.setItem("nickname", nickname);
-      alert(`Nickname saved as "${nickname}"`);
-    });
+    function playGame(url) {
+      const gamePlayer = document.getElementById("game-player");
+      const gameIframe = document.getElementById("game-iframe");
+      gameIframe.src = url;
+      gamePlayer.style.display = "flex";
+    }
 
-    clearProgressBtn.addEventListener("click", () => {
-      const confirmed = confirm(
-        "Are you sure you want to clear all progress and settings? This action cannot be undone."
-      );
-      if (confirmed) {
-        localStorage.clear();
-        alert("All progress and settings have been cleared.");
-        nicknameInput.value = "";
-        document.documentElement.setAttribute("data-theme", "light");
-      }
-    });
+    function exitGame() {
+      const gamePlayer = document.getElementById("game-player");
+      const gameIframe = document.getElementById("game-iframe");
+      gameIframe.src = "";
+      gamePlayer.style.display = "none";
+    }
 
-    window.addEventListener("DOMContentLoaded", () => {
-      loadNickname();
-    });
+    nicknameInput.value = localStorage.getItem("nickname");
+    updateTokenDisplay();
+    applyTheme();
 
-    document.getElementById("join-discord").addEventListener("click", () => {
-      window.open("https://discord.gg/gh96g6NhPd", "_blank");
-    });
+    saveNicknameBtn.onclick = saveNickname;
+    clearProgressBtn.onclick = clearProgress;
+    joinDiscordBtn.onclick = () => {
+      window.open("https://discord.gg/WujvQjVneM", "_blank");
+    };
   </script>
-
 </body>
 </html>
-
