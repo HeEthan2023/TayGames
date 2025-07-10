@@ -110,6 +110,31 @@
       font-weight: bold;
     }
 
+    #join-discord {
+      background: #7289da;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.3s;
+    }
+
+    #join-discord:hover {
+      background: #5b6eae;
+    }
+
+    #join-discord img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+
     .hero {
       text-align: center;
       padding: 100px 20px;
@@ -230,7 +255,6 @@
       }
     }
 
-    /* Community Section Under Construction */
     #community {
       padding: 60px 20px;
       max-width: 800px;
@@ -269,6 +293,10 @@
       <button id="save-nickname">Save Nickname</button>
       <button id="clear-progress">Clear Progress</button>
       <button class="toggle-theme" onclick="toggleTheme()">Toggle Theme</button>
+      <button id="join-discord" aria-label="Join Discord">
+        <img src="https://cdn3d.iconscout.com/3d/premium/thumb/discord-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--logo-server-technology-social-media-miscellaneous-pack-illustrations-3684812.png?f=webp" alt="Discord Logo" />
+        Join Discord
+      </button>
     </div>
   </header>
 
@@ -328,7 +356,6 @@
   </footer>
 
   <script>
-    // Load saved theme or default to light
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark" || savedTheme === "light") {
       document.documentElement.setAttribute("data-theme", savedTheme);
@@ -336,7 +363,6 @@
       document.documentElement.setAttribute("data-theme", "light");
     }
 
-    // Toggle theme and save to localStorage
     function toggleTheme() {
       const currentTheme = document.documentElement.getAttribute("data-theme");
       const newTheme = currentTheme === "dark" ? "light" : "dark";
@@ -344,24 +370,20 @@
       localStorage.setItem("theme", newTheme);
     }
 
-    // Show game iframe overlay
     function playGame(url) {
       document.getElementById("game-player").style.display = "flex";
       document.getElementById("game-iframe").src = url;
     }
 
-    // Exit game and hide iframe overlay
     function exitGame() {
       document.getElementById("game-player").style.display = "none";
       document.getElementById("game-iframe").src = "";
     }
 
-    // Nickname handling
     const nicknameInput = document.getElementById("nickname-input");
     const saveNicknameBtn = document.getElementById("save-nickname");
     const clearProgressBtn = document.getElementById("clear-progress");
 
-    // Load saved nickname on page load
     function loadNickname() {
       const savedNickname = localStorage.getItem("nickname");
       if (savedNickname) {
@@ -369,7 +391,6 @@
       }
     }
 
-    // Save nickname to localStorage
     saveNicknameBtn.addEventListener("click", () => {
       const nickname = nicknameInput.value.trim();
       if (nickname.length === 0) {
@@ -380,7 +401,6 @@
       alert(`Nickname saved as "${nickname}"`);
     });
 
-    // Clear all progress and localStorage data
     clearProgressBtn.addEventListener("click", () => {
       const confirmed = confirm(
         "Are you sure you want to clear all progress and settings? This action cannot be undone."
@@ -388,15 +408,17 @@
       if (confirmed) {
         localStorage.clear();
         alert("All progress and settings have been cleared.");
-        // Reset UI elements to default
         nicknameInput.value = "";
         document.documentElement.setAttribute("data-theme", "light");
       }
     });
 
-    // Initialize on page load
     window.addEventListener("DOMContentLoaded", () => {
       loadNickname();
+    });
+
+    document.getElementById("join-discord").addEventListener("click", () => {
+      window.open("https://discord.gg/gh96g6NhPd", "_blank");
     });
   </script>
 
