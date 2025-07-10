@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TayGames</title>
+<html lang="en" data-theme="gaming"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TayGames Beta</title>
   <style>
     :root {
       --primary: #007AFF;
@@ -304,22 +303,16 @@
       <a href="#">Home</a>
       <a href="#games">Explore Games</a>
       <a href="#community">Community</a>
-      <a href="#">Support</a>
+      <a href="#support">Support</a>
     </nav>
     <div class="header-controls">
-      <input
-        id="nickname-input"
-        type="text"
-        placeholder="Enter Nickname"
-        maxlength="20"
-        title="Set your nickname"
-      />
+      <input id="nickname-input" type="text" placeholder="Enter Nickname" maxlength="20" title="Set your nickname">
       <button id="save-nickname">Save Nickname</button>
       <button id="clear-progress">Clear Progress</button>
       <button class="toggle-theme" onclick="toggleTheme()">Toggle Theme</button>
-      <span id="token-display"></span>
+      <span id="token-display">Tokens: 200</span>
       <button id="join-discord" aria-label="Join Discord">
-        <img src="https://cdn3d.iconscout.com/3d/premium/thumb/discord-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--logo-server-technology-social-media-miscellaneous-pack-illustrations-3684812.png?f=webp" alt="Discord Logo" />
+        <img src="https://cdn3d.iconscout.com/3d/premium/thumb/discord-3d-illustration-download-in-png-blend-fbx-gltf-file-formats--logo-server-technology-social-media-miscellaneous-pack-illustrations-3684812.png?f=webp" alt="Discord Logo">
         Join Discord
       </button>
     </div>
@@ -337,7 +330,7 @@
       <p>Play on any device — mobile, tablet, or PC — and sync your progress.</p>
     </div>
     <div class="feature">
-      <h3>Create & Customize</h3>
+      <h3>Create &amp; Customize</h3>
       <p>Design your own games or mods with ease using our creator tools. WARNING: COMING SOON</p>
     </div>
     <div class="feature">
@@ -352,40 +345,46 @@
 
   <section id="games" class="game-grid">
     <div class="game-card">
-      <img src="https://via.placeholder.com/300x160?text=Game+1" alt="Game 1" />
+      <img src="https://via.placeholder.com/300x160?text=Game+1" alt="Game 1">
       <h3>Space Invaders</h3>
       <p>Arcade shooter with space vibes.</p>
       <button onclick="playGame('https://freeinvaders.org/')">Play Now</button>
     </div>
     <div class="game-card">
-      <img src="https://via.placeholder.com/300x160?text=Game+1" alt="Game 1" />
+      <img src="https://via.placeholder.com/300x160?text=Game+1" alt="Game 1">
       <h3>Pac-Man</h3>
       <p>Classic Arcade pacman.</p>
       <button onclick="playGame('https://freepacman.org/')">Play Now</button>
     </div>
     <div class="game-card">
-      <img src="https://via.placeholder.com/300x160?text=Game+1" alt="Game 1" />
+      <img src="https://via.placeholder.com/300x160?text=Game+1" alt="Game 1">
       <h3>Asteroids</h3>
       <p>Classic Arcade game.</p>
       <button onclick="playGame('https://freeasteroids.org/')">Play Now</button>
     </div>
     <div class="game-card">
-      <img src="https://via.placeholder.com/300x160?text=Game+1" alt="Game 1" />
+      <img src="https://via.placeholder.com/300x160?text=Game+1" alt="Game 1">
       <h3>Donkey Kong</h3>
       <p>Classic Arcade game.</p>
       <button onclick="playGame('https://freekong.org/')">Play Now</button>
     </div>
     <div class="game-card">
-      <img src="https://via.placeholder.com/300x160?text=Game+1" alt="Game 1" />
+      <img src="https://via.placeholder.com/300x160?text=Game+1" alt="Game 1">
       <h3>Flappy Bird</h3>
       <p>Flappy Bird, easy to play and fun to play.</p>
       <button onclick="playGame('https://freeflappybird.org/')">Play Now</button>
     </div>
     <div class="game-card">
-      <img src="https://via.placeholder.com/300x160?text=Game+1" alt="Game 1" />
+      <img src="https://via.placeholder.com/300x160?text=Game+1" alt="Game 1">
       <h3>Pong</h3>
       <p>Pong, easy to play and fun to play.</p>
       <button onclick="playGame('https://freepong.org/')">Play Now</button>
+    </div>
+    <div class="game-card">
+      <img src="https://via.placeholder.com/300x160?text=Game+1" alt="Game 1">
+      <h3>Geogussr</h3>
+      <p>Geoguessr, a easy world guessing game in real life.</p>
+      <button onclick="playGame('https://openguessr.com/')">Play Now</button>
     </div>
       
   </section>
@@ -396,7 +395,7 @@
     <p>We're building something awesome here. Stay tuned!</p>
   </section>
 
-  <div id="game-player">
+  <div id="game-player" style="display: none;">
     <button id="exit-game" onclick="exitGame()">Exit Game</button>
     <iframe id="game-iframe" src=""></iframe>
   </div>
@@ -469,5 +468,6 @@
       window.open("https://discord.gg/WujvQjVneM", "_blank");
     };
   </script>
-</body>
-</html>
+
+
+</body></html>
